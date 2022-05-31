@@ -29,20 +29,20 @@ var (
 	PubConnOk   bool
 	SubConnOk   bool
 	payload     Payload
+	v           interface{}
 )
 
 type Payload struct {
-	ClientName    string
-	ServerAddress string
-	Signals       []Signal
+	ClientName    string   `json:"clientName"`
+	ServerAddress string   `json:"serverAddress"`
+	Signals       []Signal `json:"signals"`
 }
 
 type Signal struct {
-	Name   string
-	NodeID string
-	Qc     ua.StatusCode
-	Ts     time.Time
-	Value  string
+	Name  string        `json:"name"`
+	Qc    ua.StatusCode `json:"qc"`
+	Ts    time.Time     `json:"ts"`
+	Value any           `json:"value"`
 }
 
 func NewTLSConfig(rootCAPath string, clientKeyPath string, privateKeyPath string, insecureSkipVerify bool) *tls.Config {
@@ -177,33 +177,45 @@ func main() {
 
 			resp, err := c.ReadWithContext(ctx, req)
 			if err != nil {
-				log.Fatalf("Read failed: %s", err)
+				//log.Fatalf("Read failed: %s", err)
 			}
-			if resp.Results[0].Status != ua.StatusOK {
-				log.Fatalf("Status not OK: %v", resp.Results[0].Status)
-			}
+
 			for i := 0; i < len(resp.Results); i++ {
-				log.Printf("%#v", resp.Results[i].Value.Value())
-				log.Println(resp.Results[i].Status)
-				log.Println(resp.Results[i].SourceTimestamp)
+
+				if resp.Results[i].Status != ua.StatusOK {
+					//log.Fatalf("Status not OK: %v", resp.Results[0].Status)
+				}
 
 				x := resp.Results[i].Value.Value()
+				switch x.(type) {
+				case nil:
+					log.Println("x is nil")
+				case bool:
+					log.Println("x is bool")
+					v = x.(bool)
+				case int:
+					log.Println("x is int")
+					v = x.(int)
+				case float32:
+					log.Println("x is float32")
+					v = x.(float32)
+				}
 
-				opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[0].Name,
-					NodeID: ConfigFile.NodesToRead.Nodes[0].NodeID,
-					Qc:     resp.Results[i].Status,
-					Ts:     resp.Results[i].SourceTimestamp,
-					Value:  x.(string),
+				opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[i].Name,
+					Qc:    resp.Results[i].Status,
+					Ts:    resp.Results[i].SourceTimestamp,
+					Value: v,
 				}}
 
 				payload.Signals = append(payload.Signals, opcsignal...)
-
 			}
 			pl, err := json.Marshal(payload)
 			if err != nil {
 				log.Fatal(err)
 			}
 			clientPub.Publish(ConfigFile.TopicsPub.Topic[0], byte(ConfigFile.ClientPub.Qos), false, pl)
+			payload.Signals = nil
+			pl = nil
 			time.Sleep(time.Duration(ConfigFile.OpcUaClient.PollInterval) * time.Second)
 		}
 	}()
