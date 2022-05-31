@@ -1,0 +1,13 @@
+
+////CONNECT TO MQTT-CLOUD-CONNECTOR DOCKER CONTAINER CLI///////
+docker exec -it mysql bash -l
+
+///////DOCKER ATTACH//////////////
+ docker attach --sig-proxy=false  <CONTAINER NAME>
+
+///////////CURL/////////////////
+curl localhost:3000/todo
+curl localhost:3000/todo -d '{"message": "finish writing the article"}'
+
+//////BUILD MULTI ARCH DOCKER IMAGES////////////
+docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --push -t cadugrillo/mqtt-cloud-connector:1.x .

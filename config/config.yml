@@ -1,0 +1,74 @@
+#OPCUA CLIENT CONFIGURATIONS
+opcUaClient:
+  clientId: "cg_opcua_client"
+  serverAddress: "opc.tcp://172.24.50.10:4840"
+  pollInterval: 5
+  maxAge: 2000
+#MQTT CLIENT CONFIGURATIONS
+clientPub:
+  clientId: "cg_opcua_publisher"
+  serverAddress: "tcp://test.mosquitto.org:1883"
+  qos: 1
+  connectionTimeout: 1
+  writeTimeout: 1
+  keepAlive: 30
+  pingTimeout: 1
+  connectRetry: true
+  autoConnect: true
+  orderMaters: false
+  userName: ""
+  password: ""
+  tlsConn: false
+  rootCAPath: "./certs/pub/xxxxxxxx"
+  clientKeyPath: "./certs/pub/xxxxxxxx"
+  privateKeyPath: "./certs/pub/xxxxxxxx"
+  insecureSkipVerify: true
+  translateTopic: false
+  publishInterval: 250
+
+#LOGS
+logs:
+  subPayload: true
+  debug: false
+  warning: false
+  error: false
+  critical: false
+
+#MQTT TOPIC TO PUBLISH TO
+topicsPub:
+  topic:
+    - "cg-connector/sample/11"
+
+#OPCUA NODES TO READ
+nodesToRead:
+  nodes:
+    - 
+        name: "DigitalValue1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue1"
+    - 
+        name: "DigitalValue2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue2"
+    - 
+        name: "DigitalValue3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue3"
+    - 
+        name: "DigitalValue4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue4"
+    - 
+        name: "DigitalValue5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue5"
+    - 
+        name: "AnaloglValue1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue1"
+    - 
+        name: "AnalogValue2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue2"
+    - 
+        name: "AnalogValue3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue3"
+    - 
+        name: "AnalogValue4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue4"
+    - 
+        name: "AnalogValue5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue5"
