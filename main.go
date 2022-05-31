@@ -42,7 +42,7 @@ type Signal struct {
 	Name  string        `json:"name"`
 	Qc    ua.StatusCode `json:"qc"`
 	Ts    time.Time     `json:"ts"`
-	Value any           `json:"value"`
+	Value interface{}   `json:"value"`
 }
 
 func NewTLSConfig(rootCAPath string, clientKeyPath string, privateKeyPath string, insecureSkipVerify bool) *tls.Config {

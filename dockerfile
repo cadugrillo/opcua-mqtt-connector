@@ -12,7 +12,7 @@ RUN go mod download
 
 COPY main.go ./
 COPY ./config/ /usr/local/go/src/opcua-mqtt-connector/config
-COPY ./certs/ /usr/local/go/src/opcua-mqtt-connector/certs
+#COPY ./certs/ /usr/local/go/src/opcua-mqtt-connector/certs
 
 RUN ls -laR ./
 
@@ -26,7 +26,7 @@ FROM scratch
 
 COPY --from=builder /App /App
 COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/config/ /config
-COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/certs/ /certs
+#COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/certs/ /certs
 
 EXPOSE 1883
 #EXPOSE 8883
