@@ -1,8 +1,8 @@
 version: "3.8"
 services:
-  mqtt-cloud-connector:
-    image: cadugrillo/mqtt-cloud-connector:1.2
-    container_name: mqtt-cloud-connector
+  opcua-mqtt-connector:
+    image: cadugrillo/opcua-mqtt-connector:1.0
+    container_name: opcua-mqtt-connector
     restart: always
     volumes:
       - type: bind

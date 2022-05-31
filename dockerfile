@@ -3,7 +3,7 @@
 FROM golang:1.16-alpine AS builder
 ENV CGO_ENABLED 0
 
-WORKDIR /usr/local/go/src/mqtt-cloud-connector
+WORKDIR /usr/local/go/src/opcua-mqtt-connector
 
 COPY go.mod ./
 COPY go.sum ./
@@ -11,9 +11,8 @@ COPY go.sum ./
 RUN go mod download
 
 COPY main.go ./
-COPY ./config/ /usr/local/go/src/mqtt-cloud-connector/config
-COPY ./mqttbuffer/ /usr/local/go/src/mqtt-cloud-connector/mqttbuffer
-COPY ./certs/ /usr/local/go/src/mqtt-cloud-connector/certs
+COPY ./config/ /usr/local/go/src/opcua-mqtt-connector/config
+COPY ./certs/ /usr/local/go/src/opcua-mqtt-connector/certs
 
 RUN ls -laR ./
 
@@ -26,11 +25,11 @@ FROM scratch
 
 
 COPY --from=builder /App /App
-COPY --from=builder /usr/local/go/src/mqtt-cloud-connector/config/ /config
-COPY --from=builder /usr/local/go/src/mqtt-cloud-connector/certs/ /certs
+COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/config/ /config
+COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/certs/ /certs
 
 EXPOSE 1883
-EXPOSE 8883
+#EXPOSE 8883
 
 CMD [ "/App" ]
 
