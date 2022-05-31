@@ -31,15 +31,12 @@ type Config struct {
 		ClientKeyPath      string `yaml:"clientKeyPath"`
 		PrivateKeyPath     string `yaml:"privateKeyPath"`
 		InsecureSkipVerify bool   `yaml:"insecureSkipVerify"`
-		TranslateTopic     bool   `yaml:"translateTopic"`
-		PublishInterval    int    `yaml:"publishInterval"`
 	} `yaml:"clientPub"`
 	Logs struct {
-		SubPayload bool `yaml:"subPayload"`
-		Debug      bool `yaml:"debug"`
-		Warning    bool `yaml:"warning"`
-		Error      bool `yaml:"error"`
-		Critical   bool `yaml:"critical"`
+		Debug    bool `yaml:"debug"`
+		Warning  bool `yaml:"warning"`
+		Error    bool `yaml:"error"`
+		Critical bool `yaml:"critical"`
 	} `yaml:"logs"`
 	TopicsPub struct {
 		Topic []string

@@ -23,21 +23,18 @@ clientPub:
   clientKeyPath: "./certs/pub/xxxxxxxx"
   privateKeyPath: "./certs/pub/xxxxxxxx"
   insecureSkipVerify: true
-  translateTopic: false
-  publishInterval: 250
 
 #LOGS
 logs:
-  subPayload: true
-  debug: false
-  warning: false
-  error: false
-  critical: false
+  debug: true
+  warning: true
+  error: true
+  critical: true
 
 #MQTT TOPIC TO PUBLISH TO
 topicsPub:
   topic:
-    - "cg-connector/sample/11"
+    - "cg-opcua-publisher/signals"
 
 #OPCUA NODES TO READ
 nodesToRead:
