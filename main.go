@@ -170,7 +170,7 @@ func main() {
 	go func() {
 		for {
 			req := &ua.ReadRequest{
-				MaxAge:             2000,
+				MaxAge:             ConfigFile.OpcUaClient.MaxAge,
 				NodesToRead:        nodesToRead,
 				TimestampsToReturn: ua.TimestampsToReturnBoth,
 			}
