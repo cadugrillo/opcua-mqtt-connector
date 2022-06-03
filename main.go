@@ -110,7 +110,7 @@ func main() {
 		nodesGroup.nodes = append(nodesGroup.nodes, r...)
 		j = j + 1
 
-		if (j == 100) || (j == len(nodes)) {
+		if (j == ConfigFile.OpcUaClient.MaxSignalsPerRead) || (i == len(nodes)-1) {
 			s := []NodesGroup{{nodes: nodesGroup.nodes}}
 			nodesList.nodesGroup = append(nodesList.nodesGroup, s...)
 			nodesGroup.nodes = nil
@@ -190,56 +190,60 @@ func main() {
 		log.Fatal(err)
 	}
 	defer c.CloseWithContext(ctx)
+	fmt.Println("OPC UA SERVER - CONNECTION STABLISHED")
 
 	go func() {
 		for {
-			req := &ua.ReadRequest{
-				MaxAge:             ConfigFile.OpcUaClient.MaxAge,
-				NodesToRead:        nodesList.nodesGroup[0].nodes,
-				TimestampsToReturn: ua.TimestampsToReturnBoth,
-			}
-
-			resp, err := c.ReadWithContext(ctx, req)
-			if err != nil {
-				log.Fatalf("Read failed: %s", err)
-			}
-
-			for i := 0; i < len(resp.Results); i++ {
-
-				if resp.Results[i].Status != ua.StatusOK {
-					log.Fatalf("Status not OK: %v", resp.Results[0].Status)
+			for j := 0; j < len(nodesList.nodesGroup); j++ {
+				req := &ua.ReadRequest{
+					MaxAge:             ConfigFile.OpcUaClient.MaxAge,
+					NodesToRead:        nodesList.nodesGroup[j].nodes,
+					TimestampsToReturn: ua.TimestampsToReturnBoth,
 				}
 
-				x := resp.Results[i].Value.Value()
-				switch x.(type) {
-				case nil:
-					log.Println("x is nil")
-				case bool:
-					log.Println("x is bool")
-					v = x.(bool)
-				case int:
-					log.Println("x is int")
-					v = x.(int)
-				case float32:
-					log.Println("x is float32")
-					v = x.(float32)
+				resp, err := c.ReadWithContext(ctx, req)
+				if err != nil {
+					log.Fatalf("Read failed: %s", err)
 				}
 
-				opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[i].Name,
-					Qc:    resp.Results[i].Status,
-					Ts:    resp.Results[i].SourceTimestamp,
-					Value: v,
-				}}
+				for i := 0; i < len(resp.Results); i++ {
 
-				payload.Signals = append(payload.Signals, opcsignal...)
+					if resp.Results[i].Status != ua.StatusOK {
+						log.Fatalf("Status not OK: %v", resp.Results[i].Status)
+					}
+
+					x := resp.Results[i].Value.Value()
+					switch x.(type) {
+					case nil:
+						log.Println("node value is nil")
+					case bool:
+						v = x.(bool)
+						log.Println("node value (bool): ", v)
+					case int:
+						v = x.(int)
+						log.Println("node value (int): ", v)
+					case float32:
+						v = x.(float32)
+						log.Println("node value (float32): ", v)
+					}
+
+					opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[i].Name,
+						Qc:    resp.Results[i].Status,
+						Ts:    resp.Results[i].SourceTimestamp,
+						Value: v,
+					}}
+
+					payload.Signals = append(payload.Signals, opcsignal...)
+				}
+				pl, err := json.Marshal(payload)
+				if err != nil {
+					log.Fatal(err)
+				}
+				clientPub.Publish(ConfigFile.TopicsPub.Topic[0], byte(ConfigFile.ClientPub.Qos), false, pl)
+				payload.Signals = nil
+				pl = nil
+				time.Sleep(time.Duration(ConfigFile.OpcUaClient.MinTimeBetweenRead) * time.Millisecond)
 			}
-			pl, err := json.Marshal(payload)
-			if err != nil {
-				log.Fatal(err)
-			}
-			clientPub.Publish(ConfigFile.TopicsPub.Topic[0], byte(ConfigFile.ClientPub.Qos), false, pl)
-			payload.Signals = nil
-			pl = nil
 			time.Sleep(time.Duration(ConfigFile.OpcUaClient.PollInterval) * time.Second)
 		}
 	}()

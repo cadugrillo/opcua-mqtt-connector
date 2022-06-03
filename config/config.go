@@ -8,10 +8,12 @@ import (
 
 type Config struct {
 	OpcUaClient struct {
-		ClientId      string  `yaml:"clientId"`
-		ServerAddress string  `yaml:"serverAddress"`
-		PollInterval  int     `yaml:"pollInterval"`
-		MaxAge        float64 `yaml:"maxAge"`
+		ClientId           string  `yaml:"clientId"`
+		ServerAddress      string  `yaml:"serverAddress"`
+		PollInterval       int     `yaml:"pollInterval"`
+		MaxAge             float64 `yaml:"maxAge"`
+		MaxSignalsPerRead  int     `yaml:"maxSignalsPerRead"`
+		MinTimeBetweenRead int     `yaml:"minTimeBetweenRead"`
 	} `yaml:"opcUaClient"`
 	ClientPub struct {
 		ClientId           string `yaml:"clientId"`

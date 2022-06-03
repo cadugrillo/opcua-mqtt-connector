@@ -4,6 +4,8 @@ opcUaClient:
   serverAddress: "opc.tcp://172.24.50.10:4840"
   pollInterval: 10
   maxAge: 2000
+  maxSignalsPerRead: 100
+  minTimeBetweenRead: 250
 #MQTT CLIENT CONFIGURATIONS
 clientPub:
   clientId: "cg_opcua_publisher"
@@ -40,182 +42,860 @@ topicsPub:
 nodesToRead:
   nodes:
     - 
-        name: "DigitalValue1"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue1"
+        name: "ControlCabPowerSupply12Ok"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ControlCabPowerSupply12Ok"
     - 
-        name: "DigitalValue2"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue2"
+        name: "WicketGateShutdownSolEnerg"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.WicketGateShutdownSolEnerg"
     - 
-        name: "DigitalValue3"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue3"
+        name: "RunnerBladeShutdownSolEnerg"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.RunnerBladeShutdownSolEnerg"
     - 
-        name: "DigitalValue4"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue4"
+        name: "Spare_ENET1_DIM1_BYTE0_BIT3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM1_BYTE0_BIT3"
     - 
-        name: "DigitalValue5"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue5"
+        name: "Spare_ENET1_DIM1_BYTE0_BIT4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM1_BYTE0_BIT4"
     - 
-        name: "DigitalValue6"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue6"
+        name: "Spare_ENET1_DIM1_BYTE0_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM1_BYTE0_BIT5"
     - 
-        name: "DigitalValue7"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue7"
+        name: "BatteryChargerFailure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.BatteryChargerFailure"
     - 
-        name: "DigitalValue8"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue8"
+        name: "StationServiceBreakerOpen"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StationServiceBreakerOpen"
     - 
-        name: "DigitalValue9"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue9"
+        name: "Spare_ENET1_DIM1_BYTE1_BIT0"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM1_BYTE1_BIT0"
     - 
-        name: "DigitalValue10"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue10"
+        name: "StationPhaseLossUnderV"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StationPhaseLossUnderV"
     - 
-        name: "DigitalValue11"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue11"
+        name: "GeneratorBreakerClosed"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GeneratorBreakerClosed"
     - 
-        name: "DigitalValue12"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue12"
+        name: "UnitSyncSpeedRaise"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSyncSpeedRaise"
     - 
-        name: "DigitalValue13"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue13"
+        name: "UnitSyncSpeedLower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSyncSpeedLower"
     - 
-        name: "DigitalValue14"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue14"
+        name: "UnitSyncVoltageRaise"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSyncVoltageRaise"
     - 
-        name: "DigitalValue15"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue15"
+        name: "UnitSyncVoltageLower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSyncVoltageLower"
     - 
-        name: "DigitalValue16"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue16"
+        name: "PLCLeadSelection"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PLCLeadSelection"
     - 
-        name: "DigitalValue17"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue17"
+        name: "LineGroundFault51N"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LineGroundFault51N"
     - 
-        name: "DigitalValue18"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue18"
+        name: "LineOvercurrentFault5051"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LineOvercurrentFault5051"
     - 
-        name: "DigitalValue19"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue19"
+        name: "MainTransfDiff87T"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainTransfDiff87T"
     - 
-        name: "DigitalValue20"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue20"
+        name: "MainBusUnderOverVoltPhA"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainBusUnderOverVoltPhA"
     - 
-        name: "DigitalValue21"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue21"
+        name: "MainBusUnderOverVoltPhB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainBusUnderOverVoltPhB"
     - 
-        name: "DigitalValue22"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue22"
+        name: "MainBusUnderOverVoltPhC"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainBusUnderOverVoltPhC"
     - 
-        name: "DigitalValue23"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue23"
+        name: "GenProtReversePower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtReversePower"
     - 
-        name: "DigitalValue24"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue24"
+        name: "GenTransfUndercurrent"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenTransfUndercurrent"
     - 
-        name: "DigitalValue25"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue25"
+        name: "GenProtLossExcitation"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtLossExcitation"
     - 
-        name: "DigitalValue26"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue26"
+        name: "GenProtNeutralGroundOvervolt"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtNeutralGroundOvervolt"
     - 
-        name: "DigitalValue27"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue27"
+        name: "GenProtNegSeqOvercurrent"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtNegSeqOvercurrent"
     - 
-        name: "DigitalValue28"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue28"
+        name: "GenProtDifferential"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtDifferential"
     - 
-        name: "DigitalValue29"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue29"
+        name: "GenProtVoltCtrlTimeOvercPhA"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtVoltCtrlTimeOvercPhA"
     - 
-        name: "DigitalValue30"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.DigitalValue30"
+        name: "GenProtVoltCtrlTimeOvercPhB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtVoltCtrlTimeOvercPhB"
     - 
-        name: "AnaloglValue1"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue1"
+        name: "GenProtVoltCtrlTimeOvercPhC"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenProtVoltCtrlTimeOvercPhC"
     - 
-        name: "AnalogValue2"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue2"
+        name: "MainBusOverUnderFreq"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainBusOverUnderFreq"
     - 
-        name: "AnalogValue3"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue3"
+        name: "GatePosGreatThanSNL"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GatePosGreatThanSNL"
     - 
-        name: "AnalogValue4"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue4"
+        name: "Spare_ENET1_DIM3_BYTE0_BIT1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM3_BYTE0_BIT1"
     - 
-        name: "AnalogValue5"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue5"
+        name: "GatePosClosed"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GatePosClosed"
     - 
-        name: "AnalogValue6"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue6"
+        name: "GatePosRaise"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GatePosRaise"
     - 
-        name: "AnalogValue7"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue7"
+        name: "GatePosLower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GatePosLower"
     - 
-        name: "AnalogValue8"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue8"
+        name: "Spare_ENET1_DIM3_BYTE0_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET1_DIM3_BYTE0_BIT5"
     - 
-        name: "AnalogValue9"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue9"
+        name: "StopCommand"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StopCommand"
     - 
-        name: "AnalogValue10"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue10"
+        name: "StartCommand"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StartCommand"
     - 
-        name: "AnalogValue11"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue11"
+        name: "CtrlMode43CSManual"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CtrlMode43CSManual"
     - 
-        name: "AnalogValue12"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue12"
+        name: "CtrlMode43CS1LocalAuto"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CtrlMode43CS1LocalAuto"
     - 
-        name: "AnalogValue13"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue13"
+        name: "CtrlMode43CS1RemoteAuto"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CtrlMode43CS1RemoteAuto"
     - 
-        name: "AnalogValue14"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue14"
+        name: "GovMode43LCSLevel"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GovMode43LCSLevel"
     - 
-        name: "AnalogValue15"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue15"
+        name: "GovMode43LCSFlow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GovMode43LCSFlow"
     - 
-        name: "AnalogValue16"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue16"
+        name: "AllMFSinAuto"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.AllMFSinAuto"
     - 
-        name: "AnalogValue17"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue17"
+        name: "PLCWatchDog"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PLCWatchDog"
     - 
-        name: "AnalogValue18"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue18"
+        name: "ExcSystOverexcitation"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcSystOverexcitation"
     - 
-        name: "AnalogValue19"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue19"
+        name: "NonLockoutRelay94"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.NonLockoutRelay94"
     - 
-        name: "AnalogValue20"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue20"
+        name: "LockoutRelay86E"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LockoutRelay86E"
     - 
-        name: "AnalogValue21"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue21"
+        name: "LockoutRelay86N"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LockoutRelay86N"
     - 
-        name: "AnalogValue22"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue22"
+        name: "LockoutRelay86T"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LockoutRelay86T"
     - 
-        name: "AnalogValue23"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue23"
+        name: "LockoutRelay86H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LockoutRelay86H"
     - 
-        name: "AnalogValue24"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue24"
+        name: "StationDCOvervoltage"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StationDCOvervoltage"
     - 
-        name: "AnalogValue25"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue25"
+        name: "StationDCUndervoltage"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StationDCUndervoltage"
     - 
-        name: "AnalogValue26"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue26"
+        name: "LineBreakerPowerFailure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LineBreakerPowerFailure"
     - 
-        name: "AnalogValue27"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue27"
+        name: "UnitSpeedGreatThanShaftCreep"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSpeedGreatThanShaftCreep"
     - 
-        name: "AnalogValue28"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue28"
+        name: "UnitSpeedGreatThanOverSpeed2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSpeedGreatThanOverSpeed2"
     - 
-        name: "AnalogValue29"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue29"
+        name: "UnitSpeedLessThan10pcSNL"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSpeedLessThan10pcSNL"
     - 
-        name: "AnalogValue30"
-        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.OnCumulus.AnalogValue30"
+        name: "UnitSpeedGreatThan90pcSNL"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSpeedGreatThan90pcSNL"
+    - 
+        name: "UnitSpeedGreatThanOverSpeed"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitSpeedGreatThanOverSpeed"
+    - 
+        name: "LineBreakerClosed"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LineBreakerClosed"
+    - 
+        name: "ExcSystFault"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcSystFault"
+    - 
+        name: "NormalStopButton"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.NormalStopButton"
+    - 
+        name: "MaintenanceSwitch"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MaintenanceSwitch"
+    - 
+        name: "GenVibrationHorizontal"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenVibrationHorizontal"
+    - 
+        name: "ExcSystGroundFault"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcSystGroundFault"
+    - 
+        name: "TurbVibrationNormalStop"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbVibrationNormalStop"
+    - 
+        name: "TurbVibrationAlarm"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbVibrationAlarm"
+    - 
+        name: "UnitMWhPulse"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitMWhPulse"
+    - 
+        name: "Spare_ENET2_DIM5_BYTE0_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM5_BYTE0_BIT5"
+    - 
+        name: "TurbBearSealWaterFlowLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbBearSealWaterFlowLow"
+    - 
+        name: "TurbGuideBearTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbGuideBearTempHigh"
+    - 
+        name: "PackBoxCoolWaterFlowLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PackBoxCoolWaterFlowLow"
+    - 
+        name: "GenCoupEndGuideBearTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCoupEndGuideBearTempHigh"
+    - 
+        name: "GenLubeOilFlowLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenLubeOilFlowLow"
+    - 
+        name: "ThrustBearTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ThrustBearTempHigh"
+    - 
+        name: "Spare_ENET2_DIM5_BYTE1_BIT4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM5_BYTE1_BIT4"
+    - 
+        name: "GenOilLevelLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOilLevelLow"
+    - 
+        name: "GenOilLevelHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOilLevelHigh"
+    - 
+        name: "LubeOilTankTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LubeOilTankTempHigh"
+    - 
+        name: "Spare_ENET2_DIM6_BYTE0_BIT0"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM6_BYTE0_BIT0"
+    - 
+        name: "GenOutbEndGuideBearTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOutbEndGuideBearTempHigh"
+    - 
+        name: "ShaftLocked"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ShaftLocked"
+    - 
+        name: "MainTransfSuddenPressure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainTransfSuddenPressure"
+    - 
+        name: "MainTransfTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainTransfTempHigh"
+    - 
+        name: "MainTransfOilLevelLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MainTransfOilLevelLow"
+    - 
+        name: "StatServiceTransfTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.StatServiceTransfTempHigh"
+    - 
+        name: "HPUOilLevelLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HPUOilLevelLow"
+    - 
+        name: "Spare_ENET2_DIM6_BYTE1_BIT0"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM6_BYTE1_BIT0"
+    - 
+        name: "HPUOilPressureLowLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HPUOilPressureLowLow"
+    - 
+        name: "HPUOilPressureLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HPUOilPressureLow"
+    - 
+        name: "Spare_ENET2_DIM6_BYTE1_BIT3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM6_BYTE1_BIT3"
+    - 
+        name: "BrakesOn"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.BrakesOn"
+    - 
+        name: "CoolWaterSystPressureLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CoolWaterSystPressureLow"
+    - 
+        name: "Fire"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Fire"
+    - 
+        name: "Intrusion"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Intrusion"
+    - 
+        name: "PlantSumpWaterLevelHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PlantSumpWaterLevelHigh"
+    - 
+        name: "ExcSystReady"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcSystReady"
+    - 
+        name: "MPTOilTempHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.MPTOilTempHigh"
+    - 
+        name: "CoolWaterSystPumpFailure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CoolWaterSystPumpFailure"
+    - 
+        name: "CoolWaterSystDiffPressureHigh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CoolWaterSystDiffPressureHigh"
+    - 
+        name: "Spare_ENET2_DIM7_BYTE0_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM7_BYTE0_BIT5"
+    - 
+        name: "VoltageImbalance"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.VoltageImbalance"
+    - 
+        name: "GNDFault"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GNDFault"
+    - 
+        name: "BatteryDisconnectPosition"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.BatteryDisconnectPosition"
+    - 
+        name: "B52G2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.B52G2"
+    - 
+        name: "OtherPlantRunning"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.OtherPlantRunning"
+    - 
+        name: "ManualTransferSwitchEmerg"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ManualTransferSwitchEmerg"
+    - 
+        name: "Unit1Estop"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Unit1Estop"
+    - 
+        name: "LubeOilLowPressure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LubeOilLowPressure"
+    - 
+        name: "GenBearOilLevelLow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenBearOilLevelLow"
+    - 
+        name: "LossLeadLubeOilPump"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LossLeadLubeOilPump"
+    - 
+        name: "ExcSystIncompleteSeq"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcSystIncompleteSeq"
+    - 
+        name: "BrakeFailure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.BrakeFailure"
+    - 
+        name: "HPUStartPermissive"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HPUStartPermissive"
+    - 
+        name: "B52E"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.B52E"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE0_BIT4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE0_BIT4"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE0_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE0_BIT5"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE0_BIT6"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE0_BIT6"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE0_BIT7"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE0_BIT7"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT0"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT0"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT1"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT2"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT3"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT4"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT5"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT6"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT6"
+    - 
+        name: "Spare_ENET2_DIM8_BYTE1_BIT7"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_DIM8_BYTE1_BIT7"
+    - 
+        name: "GenVoltageV"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenVoltageV"
+    - 
+        name: "GenCurrentA"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCurrentA"
+    - 
+        name: "GenActivePower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenActivePower"
+    - 
+        name: "GenReactPower"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenReactPower"
+    - 
+        name: "VtdlB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.VtdlB"
+    - 
+        name: "AtdlB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.AtdlB"
+    - 
+        name: "UpperPondLevel"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UpperPondLevel"
+    - 
+        name: "LowerPondLevel"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LowerPondLevel"
+    - 
+        name: "WicketGatePos"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.WicketGatePos"
+    - 
+        name: "RunnerBladePos"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.RunnerBladePos"
+    - 
+        name: "SpeedSignal1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal1"
+    - 
+        name: "SpeedSignal2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal2"
+    - 
+        name: "TrashRackWaterLevel"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TrashRackWaterLevel"
+    - 
+        name: "Spare_ENET2_AIM2_WORD5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_AIM2_WORD5"
+    - 
+        name: "UnitFlow"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitFlow"
+    - 
+        name: "HpuPressure"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HpuPressure"
+    - 
+        name: "GenStatWindTemp1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp1"
+    - 
+        name: "GenStatWindTemp2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp2"
+    - 
+        name: "GenStatWindTemp3"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp3"
+    - 
+        name: "GenStatWindTemp4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp4"
+    - 
+        name: "GenStatWindTemp5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp5"
+    - 
+        name: "GenStatWindTemp6"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp6"
+    - 
+        name: "TurbOilHeadTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbOilHeadTemp"
+    - 
+        name: "TurbGuideBrgTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbGuideBrgTemp"
+    - 
+        name: "TurbPackBoxTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbPackBoxTemp"
+    - 
+        name: "GenCoupEndGuideBrgTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCoupEndGuideBrgTemp"
+    - 
+        name: "GenOutEndGuideBrgTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOutEndGuideBrgTemp"
+    - 
+        name: "OutThrustBrgTemp"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.OutThrustBrgTemp"
+    - 
+        name: "Spare_ENET2_RTD2_WORD4"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_RTD2_WORD4"
+    - 
+        name: "Spare_ENET2_RTD2_WORD5"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_RTD2_WORD5"
+    - 
+        name: "Spare_ENET2_RTD2_WORD6"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_RTD2_WORD6"
+    - 
+        name: "Spare_ENET2_RTD2_WORD7"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Spare_ENET2_RTD2_WORD7"
+    - 
+        name: "GenVoltageV_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenVoltageV_Alm1"
+    - 
+        name: "GenVoltageV_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenVoltageV_Alm2"
+    - 
+        name: "GenVoltageV_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenVoltageV_WireB"
+    - 
+        name: "GenCurrentA_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCurrentA_Alm1"
+    - 
+        name: "GenCurrentA_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCurrentA_Alm2"
+    - 
+        name: "GenCurrentA_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCurrentA_WireB"
+    - 
+        name: "GenActivePower_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenActivePower_Alm1"
+    - 
+        name: "GenActivePower_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenActivePower_Alm2"
+    - 
+        name: "GenActivePower_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenActivePower_WireB"
+    - 
+        name: "GenReactPower_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenReactPower_Alm1"
+    - 
+        name: "GenReactPower_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenReactPower_Alm2"
+    - 
+        name: "GenReactPower_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenReactPower_WireB"
+    - 
+        name: "VtdlB_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.VtdlB_Alm1"
+    - 
+        name: "VtdlB_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.VtdlB_Alm2"
+    - 
+        name: "VtdlB_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.VtdlB_WireB"
+    - 
+        name: "AtdlB_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.AtdlB_Alm1"
+    - 
+        name: "AtdlB_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.AtdlB_Alm2"
+    - 
+        name: "AtdlB_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.AtdlB_WireB"
+    - 
+        name: "UpperPondLevel_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UpperPondLevel_Alm1"
+    - 
+        name: "UpperPondLevel_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UpperPondLevel_Alm2"
+    - 
+        name: "UpperPondLevel_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UpperPondLevel_WireB"
+    - 
+        name: "LowerPondLevel_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LowerPondLevel_Alm1"
+    - 
+        name: "LowerPondLevel_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LowerPondLevel_Alm2"
+    - 
+        name: "LowerPondLevel_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.LowerPondLevel_WireB"
+    - 
+        name: "WicketGatePos_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.WicketGatePos_Alm1"
+    - 
+        name: "WicketGatePos_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.WicketGatePos_Alm2"
+    - 
+        name: "WicketGatePos_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.WicketGatePos_WireB"
+    - 
+        name: "RunnerBladePos_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.RunnerBladePos_Alm1"
+    - 
+        name: "RunnerBladePos_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.RunnerBladePos_Alm2"
+    - 
+        name: "RunnerBladePos_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.RunnerBladePos_WireB"
+    - 
+        name: "SpeedSignal1_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal1_Alm1"
+    - 
+        name: "SpeedSignal1_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal1_Alm2"
+    - 
+        name: "SpeedSignal1_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal1_WireB"
+    - 
+        name: "SpeedSignal2_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal2_Alm1"
+    - 
+        name: "SpeedSignal2_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal2_Alm2"
+    - 
+        name: "SpeedSignal2_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.SpeedSignal2_WireB"
+    - 
+        name: "TrashRackWaterLevel_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TrashRackWaterLevel_Alm1"
+    - 
+        name: "TrashRackWaterLevel_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TrashRackWaterLevel_Alm2"
+    - 
+        name: "TrashRackWaterLevel_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TrashRackWaterLevel_WireB"
+    - 
+        name: "UnitFlow_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitFlow_Alm1"
+    - 
+        name: "UnitFlow_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitFlow_Alm2"
+    - 
+        name: "UnitFlow_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitFlow_WireB"
+    - 
+        name: "HpuPressure_Alm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HpuPressure_Alm1"
+    - 
+        name: "HpuPressure_Alm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HpuPressure_Alm2"
+    - 
+        name: "HpuPressure_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HpuPressure_WireB"
+    - 
+        name: "TurbOilHeadTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbOilHeadTemp_H"
+    - 
+        name: "TurbOilHeadTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbOilHeadTemp_HH"
+    - 
+        name: "TurbOilHeadTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbOilHeadTemp_WireB"
+    - 
+        name: "TurbGuideBrgTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbGuideBrgTemp_H"
+    - 
+        name: "TurbGuideBrgTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbGuideBrgTemp_HH"
+    - 
+        name: "TurbGuideBrgTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbGuideBrgTemp_WireB"
+    - 
+        name: "TurbPackBoxTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbPackBoxTemp_H"
+    - 
+        name: "TurbPackBoxTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbPackBoxTemp_HH"
+    - 
+        name: "TurbPackBoxTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TurbPackBoxTemp_WireB"
+    - 
+        name: "GenCoupEndGuideBrgTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCoupEndGuideBrgTemp_H"
+    - 
+        name: "GenCoupEndGuideBrgTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCoupEndGuideBrgTemp_HH"
+    - 
+        name: "GenCoupEndGuideBrgTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenCoupEndGuideBrgTemp_WireB"
+    - 
+        name: "GenOutEndGuideBrgTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOutEndGuideBrgTemp_H"
+    - 
+        name: "GenOutEndGuideBrgTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOutEndGuideBrgTemp_HH"
+    - 
+        name: "GenOutEndGuideBrgTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenOutEndGuideBrgTemp_WireB"
+    - 
+        name: "OutThrustBrgTemp_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.OutThrustBrgTemp_H"
+    - 
+        name: "OutThrustBrgTemp_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.OutThrustBrgTemp_HH"
+    - 
+        name: "OutThrustBrgTemp_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.OutThrustBrgTemp_WireB"
+    - 
+        name: "GenStatWindTemp1_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp1_H"
+    - 
+        name: "GenStatWindTemp1_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp1_HH"
+    - 
+        name: "GenStatWindTemp1_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp1_WireB"
+    - 
+        name: "GenStatWindTemp2_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp2_H"
+    - 
+        name: "GenStatWindTemp2_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp2_HH"
+    - 
+        name: "GenStatWindTemp2_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp2_WireB"
+    - 
+        name: "GenStatWindTemp3_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp3_H"
+    - 
+        name: "GenStatWindTemp3_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp3_HH"
+    - 
+        name: "GenStatWindTemp3_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp3_WireB"
+    - 
+        name: "GenStatWindTemp4_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp4_H"
+    - 
+        name: "GenStatWindTemp4_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp4_HH"
+    - 
+        name: "GenStatWindTemp4_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp4_WireB"
+    - 
+        name: "GenStatWindTemp5_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp5_H"
+    - 
+        name: "GenStatWindTemp5_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp5_HH"
+    - 
+        name: "GenStatWindTemp5_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp5_WireB"
+    - 
+        name: "GenStatWindTemp6_H"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp6_H"
+    - 
+        name: "GenStatWindTemp6_HH"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp6_HH"
+    - 
+        name: "GenStatWindTemp6_WireB"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.GenStatWindTemp6_WireB"
+    - 
+        name: "Differential_Level_LimAlm1"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Differential_Level_LimAlm1"
+    - 
+        name: "Differential_Level_LimAlm2"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Differential_Level_LimAlm2"
+    - 
+        name: "EnabledUnit"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.EnabledUnit"
+    - 
+        name: "CurrentLeadUnit"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CurrentLeadUnit"
+    - 
+        name: "PLCWatchDogCircuitMalfunction"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PLCWatchDogCircuitMalfunction"
+    - 
+        name: "ExcON"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcON"
+    - 
+        name: "ExcOff"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.ExcOff"
+    - 
+        name: "DownTimeDays"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.DownTimeDays"
+    - 
+        name: "DownTimeHours"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.DownTimeHours"
+    - 
+        name: "DownTimeSinceTripDays"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.DownTimeSinceTripDays"
+    - 
+        name: "DownTimeSinceTripHours"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.DownTimeSinceTripHours"
+    - 
+        name: "TotalMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.TotalMWh"
+    - 
+        name: "PrevYearMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PrevYearMWh"
+    - 
+        name: "CurrYearMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CurrYearMWh"
+    - 
+        name: "PrevMonthMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PrevMonthMWh"
+    - 
+        name: "CurrMonthMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CurrMonthMWh"
+    - 
+        name: "PrevDayMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PrevDayMWh"
+    - 
+        name: "CurrDayMWh"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.CurrDayMWh"
+    - 
+        name: "PowerFactor"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.PowerFactor"
+    - 
+        name: "UnitStatus"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.UnitStatus"
+    - 
+        name: "Step1Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step1Status"
+    - 
+        name: "Step2Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step2Status"
+    - 
+        name: "Step3Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step3Status"
+    - 
+        name: "Step4Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step4Status"
+    - 
+        name: "Step5Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step5Status"
+    - 
+        name: "Step6Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step6Status"
+    - 
+        name: "Step7Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step7Status"
+    - 
+        name: "Step8Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step8Status"
+    - 
+        name: "Step9Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step9Status"
+    - 
+        name: "Step10Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step10Status"
+    - 
+        name: "Step11Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step11Status"
+    - 
+        name: "Step12Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step12Status"
+    - 
+        name: "Step13Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step13Status"
+    - 
+        name: "Step14Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step14Status"
+    - 
+        name: "Step20Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step20Status"
+    - 
+        name: "Step21Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step21Status"
+    - 
+        name: "Step22Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step22Status"
+    - 
+        name: "Step23Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step23Status"
+    - 
+        name: "Step24Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step24Status"
+    - 
+        name: "Step25Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step25Status"
+    - 
+        name: "Step26Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step26Status"
+    - 
+        name: "Step27Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step27Status"
+    - 
+        name: "Step28Status"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.Step28Status"
+    - 
+        name: "HWDiffProtDisabled"
+        nodeID: "ns=4;s=|var|CODESYS Control for emPC-A-iMX6 SL.Application.DB1.HWDiffProtDisabled"
