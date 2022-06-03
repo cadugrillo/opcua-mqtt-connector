@@ -218,16 +218,19 @@ func main() {
 						log.Println("node value is nil")
 					case bool:
 						v = x.(bool)
-						log.Println("node value (bool): ", v)
-					case int:
-						v = x.(int)
-						log.Println("node value (int): ", v)
+						log.Println("node value (bool): ", v, ConfigFile.NodesToRead.Nodes[ConfigFile.OpcUaClient.MaxSignalsPerRead*j+i].Name)
+					case uint16:
+						v = x.(uint16)
+						log.Println("node value (uint16): ", v, ConfigFile.NodesToRead.Nodes[ConfigFile.OpcUaClient.MaxSignalsPerRead*j+i].Name)
+					case int16:
+						v = x.(int16)
+						log.Println("node value (int16): ", v, ConfigFile.NodesToRead.Nodes[ConfigFile.OpcUaClient.MaxSignalsPerRead*j+i].Name)
 					case float32:
 						v = x.(float32)
-						log.Println("node value (float32): ", v)
+						log.Println("node value (float32): ", v, ConfigFile.NodesToRead.Nodes[ConfigFile.OpcUaClient.MaxSignalsPerRead*j+i].Name)
 					}
 
-					opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[i].Name,
+					opcsignal := []Signal{{Name: ConfigFile.NodesToRead.Nodes[ConfigFile.OpcUaClient.MaxSignalsPerRead*j+i].Name,
 						Qc:    resp.Results[i].Status,
 						Ts:    resp.Results[i].SourceTimestamp,
 						Value: v,
