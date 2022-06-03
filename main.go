@@ -22,15 +22,24 @@ import (
 )
 
 var (
-	endpoint    *string
-	ConfigFile  config.Config
-	nodes       []*string
-	nodesToRead []*ua.ReadValueID
-	PubConnOk   bool
-	SubConnOk   bool
-	payload     Payload
-	v           interface{}
+	endpoint   *string
+	ConfigFile config.Config
+	nodes      []*string
+	nodesGroup NodesGroup
+	nodesList  NodesList
+	PubConnOk  bool
+	SubConnOk  bool
+	payload    Payload
+	v          interface{}
 )
+
+type NodesList struct {
+	nodesGroup []NodesGroup
+}
+
+type NodesGroup struct {
+	nodes []*ua.ReadValueID
+}
 
 type Payload struct {
 	ClientName    string   `json:"clientName"`
@@ -89,14 +98,29 @@ func main() {
 		nodes = append(nodes, node...)
 	}
 
+	j := 0
+	k := 0
 	for i := 0; i < len(nodes); i++ {
+
 		id, err := ua.ParseNodeID(*nodes[i])
 		if err != nil {
 			log.Fatalf("invalid node id: %v", err)
 		}
 		r := []*ua.ReadValueID{{NodeID: id}}
-		nodesToRead = append(nodesToRead, r...)
+		nodesGroup.nodes = append(nodesGroup.nodes, r...)
+		j = j + 1
+
+		if (j == 100) || (j == len(nodes)) {
+			s := []NodesGroup{{nodes: nodesGroup.nodes}}
+			nodesList.nodesGroup = append(nodesList.nodesGroup, s...)
+			nodesGroup.nodes = nil
+			j = 0
+			log.Println("New Node Group: ", nodesList.nodesGroup[k].nodes)
+			k = k + 1
+		}
+
 	}
+
 	////////////////////END OF OPCUA CONFIGURATION SECTION/////////////////////
 
 	////////////////////MQTT CONFIGURATION SECTION////////////////////////////
@@ -171,19 +195,19 @@ func main() {
 		for {
 			req := &ua.ReadRequest{
 				MaxAge:             ConfigFile.OpcUaClient.MaxAge,
-				NodesToRead:        nodesToRead,
+				NodesToRead:        nodesList.nodesGroup[0].nodes,
 				TimestampsToReturn: ua.TimestampsToReturnBoth,
 			}
 
 			resp, err := c.ReadWithContext(ctx, req)
 			if err != nil {
-				//log.Fatalf("Read failed: %s", err)
+				log.Fatalf("Read failed: %s", err)
 			}
 
 			for i := 0; i < len(resp.Results); i++ {
 
 				if resp.Results[i].Status != ua.StatusOK {
-					//log.Fatalf("Status not OK: %v", resp.Results[0].Status)
+					log.Fatalf("Status not OK: %v", resp.Results[0].Status)
 				}
 
 				x := resp.Results[i].Value.Value()
