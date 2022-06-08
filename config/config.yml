@@ -25,9 +25,12 @@ clientPub:
   clientKeyPath: "./certs/pub/xxxxxxxx"
   privateKeyPath: "./certs/pub/xxxxxxxx"
   insecureSkipVerify: true
+  translateTopic: false
+  publishInterval: 250
 
 #LOGS
 logs:
+  subPayload: true
   debug: true
   warning: true
   error: true
