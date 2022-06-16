@@ -28,7 +28,7 @@ COPY --from=builder /OpcuaMqttApp /OpcuaMqttApp
 COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/config/ /config
 #COPY --from=builder /usr/local/go/src/opcua-mqtt-connector/certs/ /certs
 
-EXPOSE 1883
+#EXPOSE 1883
 #EXPOSE 8883
 
 CMD [ "/OpcuaMqttApp" ]
