@@ -258,5 +258,6 @@ func main() {
 	<-sig
 	fmt.Println("signal caught - exiting")
 	c.Close()
+	clientPub.Disconnect(1000)
 	fmt.Println("shutdown complete")
 }
